@@ -50,18 +50,16 @@ window.addEventListener( 'DOMContentLoaded', () => {
                     </div>
                 </div>`;
 
+        localStorage.setItem( 'tasks', JSON.stringify( cardUI ) );
         DOMRender( cardUI );
     }
 
     function DOMRender( fullCard ) {
         DOMCardPararent.insertAdjacentHTML( "afterbegin", fullCard );
-
     }
-
 
     DOMCardPararent.addEventListener( 'click', e => {
         const { target } = e;
-
         if ( target.classList.contains( 'starClose' ) ) {
             const parent = target.closest( '.card' );
             const tID = parent.dataset.taskId;
@@ -74,7 +72,7 @@ window.addEventListener( 'DOMContentLoaded', () => {
 
     function removeTaskFromTasks( parentID ) {
         tasks = tasks.filter( task => task.id !== parentID );
-        
-        console.log(tasks);
     }
+
+
 } );
