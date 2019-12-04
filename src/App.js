@@ -7,21 +7,26 @@ window.addEventListener( 'DOMContentLoaded', () => {
     const inputBody = form[ 1 ];
     const DOMCardPararent = document.querySelector( '.myCardParentDom' );
 
+    getTaskFromLocalStorage();
+
 
     form.addEventListener( 'submit', onFormSubmit );
 
     function onFormSubmit( e ) {
         e.preventDefault();
-        const titleVal = inputTitle.value;
-        const bodyVal = inputBody.value;
+        const titleVal = inputTitle.value.trim();
+        const bodyVal = inputBody.value.trim();
 
         if ( !titleVal || !bodyVal ) {
-            alert( "Введите данные!" );
+            toastr["error"] ("Add your task! please");
             return
         }
 
+
         const newTask = newTaskCreate( titleVal, bodyVal );
         tasks.push( newTask );
+        localStorage.setItem( 'tasks', JSON.stringify( tasks ) );
+        toastr["success"] ("Success!");
         form.reset();
     }
 
@@ -49,8 +54,6 @@ window.addEventListener( 'DOMContentLoaded', () => {
                         <p class="card-text">${ body }</p>
                     </div>
                 </div>`;
-
-        localStorage.setItem( 'tasks', JSON.stringify( cardUI ) );
         DOMRender( cardUI );
     }
 
@@ -64,15 +67,42 @@ window.addEventListener( 'DOMContentLoaded', () => {
             const parent = target.closest( '.card' );
             const tID = parent.dataset.taskId;
             removeTaskFromTasks( tID );
-
             parent.remove();
+            toastr[ "info" ]( "Your task removed!" );
         }
-
     } );
 
     function removeTaskFromTasks( parentID ) {
         tasks = tasks.filter( task => task.id !== parentID );
+        localStorage.setItem( 'tasks', JSON.stringify( tasks ) );
     }
 
+    function getTaskFromLocalStorage() {
+        const taskFromLC = JSON.parse( localStorage.getItem( 'tasks' ) );
+
+        if ( !taskFromLC ) return;
+
+        tasks = taskFromLC;
+        getTasks( taskFromLC )
+    }
+
+    toastr.options = {
+        "closeButton": true, // true/false
+        "debug": false, // true/false
+        "newestOnTop": false, // true/false
+        "progressBar": false, // true/false
+        "positionClass": "toast-bottom-left", // md-toast-top-right / md-toast-top-left / md-toast-bottom-right / md-toast-bottom-left
+        "preventDuplicates": true, //true/false
+        "onclick": null,
+        "showDuration": "300", // in milliseconds
+        "hideDuration": "2500", // in milliseconds
+        "timeOut": "3000", // in milliseconds
+        "extendedTimeOut": "1000", // in milliseconds
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
 
 } );
+
