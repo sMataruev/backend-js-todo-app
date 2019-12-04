@@ -95,8 +95,8 @@ window.addEventListener( 'DOMContentLoaded', () => {
         "preventDuplicates": true, //true/false
         "onclick": null,
         "showDuration": "300", // in milliseconds
-        "hideDuration": "2500", // in milliseconds
-        "timeOut": "3000", // in milliseconds
+        "hideDuration": "1500", // in milliseconds
+        "timeOut": "1000", // in milliseconds
         "extendedTimeOut": "1000", // in milliseconds
         "showEasing": "swing",
         "hideEasing": "linear",
